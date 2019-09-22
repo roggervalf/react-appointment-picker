@@ -6,8 +6,9 @@ export default class Appointment extends Component {
     isSelected: PropTypes.bool,
     isReserved: PropTypes.bool,
     isEnabled: PropTypes.bool,
-    appointmentNumber: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    // appointmentNumber: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     periods: PropTypes.number,
+    time: PropTypes.string,
     selectAppointment: PropTypes.func.isRequired
   }
 
@@ -28,7 +29,7 @@ export default class Appointment extends Component {
     const style = {height: `calc(2rem*${periods || 1} + 0.2rem*(${periods || 1} - 1))`}
     return (
       <div style={style} className={className} onClick={this.handleClick}>
-        <span className='appointment__time'>{this.props.appointmentNumber}</span>
+        <span className='appointment__time'>{this.props.time}</span>
       </div>
     )
   }
