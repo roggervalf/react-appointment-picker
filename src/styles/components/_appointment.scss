@@ -1,0 +1,28 @@
+.appointment {
+  background-color: $color-primary;
+  width: 7rem;
+  color: $color-appointment-time;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.4rem;
+  
+  &__time{
+    font-size: 1rem;
+  }
+  
+  &--enabled {
+    cursor: pointer;
+    &:hover { background-color: $color-secondary; }
+  }
+
+  &--selected {
+    cursor: pointer;
+    background-color: $color-tertiary;
+  }
+
+  &--reserved {
+    cursor: not-allowed;
+    background-color: $color-appointment-reserved;
+  }
+}
