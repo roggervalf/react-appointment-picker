@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import RowNumber from './RowNumber'
+import DayNumber from './DayNumber'
 
-export default class Col extends Component {
+export default class Day extends Component {
   static propTypes = {
-    rowNumber: PropTypes.string,
+    dayNumber: PropTypes.string,
     visible: PropTypes.bool,
     isSelected: PropTypes.bool,
     children: PropTypes.array
   }
 
   render () {
-    const { visible, rowNumber, isSelected } = this.props
+    const { visible, dayNumber, isSelected } = this.props
     const className = 'appointment-picker__col' +
     (isSelected ? ' appointment-picker__col--selected' : ' appointment-picker__col--enabled')
     return (
       <div className={className}>
-        <RowNumber rowNumber={rowNumber} visible={visible} />
+        <DayNumber dayNumber={dayNumber} visible={visible} />
         {this.props.children}
       </div>
     )
