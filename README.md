@@ -83,6 +83,9 @@ Name | Type | Default | Required|Description
 `loading` | boolean | `false` | `false` | Shows a white mask on the appointmentPicker.
 `selectedByDefault` | boolean | `false` | `false` | Allow to have already selected appointments (`true`), otherwise (`false`) they aren´t going to be checked by their isSelected property.
 `maxReservableAppointments` | number | 0 | `false` | Limits the number of selectable appointments.
+`initialDay` | Date | - | `true` | Sets the initial day for your days.
+`unitTime` | number | 15 * 60 * 1000 | `false` | Sets the minimal period of time between appointments.
+`local` | string | `en-US` | `false` | Sets the locale param for Dates variables. See [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString).
 `addAppointmentCallback` | function | (day, number, time, id, cb) => {console.log( `Added appointment ${number}, day ${day}, time ${time}, id ${id}`); cb(day,number)} | `false` | Should be customized as you need. Remember to use cb(day,number) for accepting the selection, otherwise ommit it.
 `removeAppointmentCallback` | function | (day, number, time, id, cb) => {console.log( `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`); cb(day,number)} | `false` | Should be customized as you need. Remember to use cb(day,number) for accepting the deselection, otherwise ommit it.
 `days` | array | - | `true` | Array of arrays of json. (See next section).
@@ -97,6 +100,7 @@ Name | Type | Default | Required|Description
 `number` | number or string | undefined | `false` | It will be its order.
 `isSelected` | boolean | `false` | `false` | It will be checked in case selectedByDefault is true.
 `isReserved` | boolean | `false` | `false` | Disable the option of click it.
+`periods` | number | 1 | `false` | Represents how many periods belongs to an appointment.
 
 ## License
 
