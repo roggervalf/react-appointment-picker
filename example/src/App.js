@@ -6,12 +6,12 @@ export default class App extends Component {
   state = {
     loading:false
   }
-  addAppointmentCallback=(day, number, id, cb)=>{
+  addAppointmentCallback=(day, number, time, id, cb)=>{
     this.setState({
       loading:true
     },async()=>{
       await new Promise(resolve => setTimeout(resolve, 5000));
-      console.log(`Added appointment ${number}, day ${day}, id ${id}`)
+      console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`)
       cb(day,number)
       this.setState({ loading: false })
     })
@@ -30,7 +30,7 @@ export default class App extends Component {
         <h1>Appointment Picker</h1>
         <AppointmentPicker
           addAppointmentCallback={this.addAppointmentCallback}
-          initialDay={new Date()}
+          initialDay={new Date("2018-05-05")}
           days={days}
           maxReservableAppointments={3}
           alpha
