@@ -9,7 +9,7 @@ export class AppointmentPicker extends Component {
     addAppointmentCallback: PropTypes.func,
     alpha: PropTypes.bool,
     visible: PropTypes.bool,
-    simple: PropTypes.bool,
+    continuos: PropTypes.bool,
     loading: PropTypes.bool,
     selectedByDefault: PropTypes.bool,
     removeAppointmentCallback: PropTypes.func,
@@ -30,15 +30,15 @@ export class AppointmentPicker extends Component {
   }
 
   static defaultProps = {
-    addAppointmentCallback: ({day, number, time, id}, addCb, params, removeCb) => {
+    addAppointmentCallback: ({ day, number, time, id }, addCb) => {
       console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`)
       addCb(day, number, time, id)
     },
-    removeAppointmentCallback: ({day, number, time, id}, removeCb) => {
+    removeAppointmentCallback: ({ day, number, time, id }, removeCb) => {
       console.log(`Removed appointment ${number}, day ${day}, time ${time}, id ${id}`)
       removeCb(day, number)
     },
-    simple: false,
+    continuos: false,
     maxReservableAppointments: 0,
     initialDay: new Date(),
     unitTime: 15 * 60 * 1000,
@@ -48,7 +48,7 @@ export class AppointmentPicker extends Component {
   constructor (props) {
     super(props)
     const { days } = props
-    const {selectedAppointments, size} = this.getAlreadySelectedAppointments()
+    const { selectedAppointments, size } = this.getAlreadySelectedAppointments()
     const dayPeriods = days.map(day => {
       let periods = 0
       day.forEach((obj) => {
@@ -67,8 +67,8 @@ export class AppointmentPicker extends Component {
   static getDerivedStateFromProps (props, state) {
     if (props.maxReservableAppointments < state.size) {
       let sum = 0
-      let selectedAppointments = {}
-      for (let array in state.selectedAppointments) {
+      const selectedAppointments = {}
+      for (const array in state.selectedAppointments) {
         if (
           sum + state.selectedAppointments[array].length <
           props.maxReservableAppointments
@@ -89,7 +89,8 @@ export class AppointmentPicker extends Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-    return nextState.selectedAppointments !== this.state.selectedAppointments || this.props.loading !== nextProps.loading
+    return nextState.selectedAppointments !== this.state.selectedAppointments ||
+    this.props.loading !== nextProps.loading
   }
 
   getAlreadySelectedAppointments = () => {
@@ -107,7 +108,7 @@ export class AppointmentPicker extends Component {
       this.props.days.forEach((day, index) => {
         const actualDay = new Date(initialDay.getTime() + 60 * 60 * 24 * 1000 * index)
         const dayNumber = alpha
-          ? actualDay.toLocaleDateString(local, {weekday: 'long'})
+          ? actualDay.toLocaleDateString(local, { weekday: 'long' })
           : actualDay.toLocaleDateString(local)
 
         let key = 0
@@ -116,16 +117,18 @@ export class AppointmentPicker extends Component {
             key = key + 1
           } else if (appointment.isSelected) {
             const time = new Date(actualDay.getTime() + unitTime * (key)).toLocaleTimeString(local)
-            const appointmentAlreadySelected = this.includeAppointment(selectedAppointments, dayNumber, appointment.number)
+            const appointmentAlreadySelected = this.includeAppointment(
+              selectedAppointments, dayNumber, appointment.number)
             if (size < maxReservableAppointments && !appointmentAlreadySelected) {
-              selectedAppointments = this.addAppointment(selectedAppointments, dayNumber, appointment.number, time, appointment.id)
+              selectedAppointments = this.addAppointment(
+                selectedAppointments, dayNumber, appointment.number, time, appointment.id)
               size = size + 1
             }
           }
         })
       })
     }
-    return {selectedAppointments, size}
+    return { selectedAppointments, size }
   }
 
   includeAppointment=(selectedAppointments, day, number) => {
@@ -150,11 +153,11 @@ export class AppointmentPicker extends Component {
         time
       }
     }
-    return {...selectedAppointments}
+    return { ...selectedAppointments }
   }
 
   deleteAppointment=(day, number) => {
-    let { selectedAppointments } = this.state
+    const { selectedAppointments } = this.state
     if (selectedAppointments[day]) {
       delete selectedAppointments[day][number]
       /* selectedAppointments[day] = selectedAppointments[day].filter((value) => {
@@ -164,11 +167,11 @@ export class AppointmentPicker extends Component {
         delete (selectedAppointments[day])
       }
     }
-    return {...selectedAppointments}
+    return { ...selectedAppointments }
   }
 
   acceptSelection= (day, number, time, id) => {
-    let { selectedAppointments } = this.state
+    const { selectedAppointments } = this.state
     const size = this.state.size
 
     this.setState(
@@ -191,30 +194,35 @@ export class AppointmentPicker extends Component {
   }
 
   selectAppointment = (day, number, time, id) => {
-    let { selectedAppointments } = this.state
+    const { selectedAppointments } = this.state
     const size = this.state.size
     const {
       maxReservableAppointments,
       addAppointmentCallback,
       removeAppointmentCallback,
-      simple
+      continuos
     } = this.props
     const appointmentAlreadySelected = this.includeAppointment(selectedAppointments, day, number)
 
     console.log(day, number, time, id, appointmentAlreadySelected, size)
     if (size < maxReservableAppointments) {
-      if (!appointmentAlreadySelected) 
-        addAppointmentCallback({day, number, time, id}, this.acceptSelection)
-      else 
-        removeAppointmentCallback({day, number, time, id}, this.acceptDeselection)
+      if (!appointmentAlreadySelected) {
+        addAppointmentCallback({ day, number, time, id }, this.acceptSelection)
+      } else { removeAppointmentCallback({ day, number, time, id }, this.acceptDeselection) }
     } else {
-      if (selectedAppointments[day] && appointmentAlreadySelected)
-        removeAppointmentCallback({day, number, time, id}, this.acceptDeselection)
-      else if (simple) {
+      if (selectedAppointments[day] && appointmentAlreadySelected) {
+        removeAppointmentCallback({ day, number, time, id }, this.acceptDeselection)
+      } else if (continuos) {
         const auxDay = Object.keys(selectedAppointments)[0]
         const auxNumber = Object.keys(selectedAppointments[auxDay])[0]
-        addAppointmentCallback({day, number, time, id}, this.acceptSelection,
-          {day: auxDay, number: auxNumber, time: selectedAppointments[auxDay][auxNumber].time, id: selectedAppointments[auxDay][auxNumber].id}, this.acceptDeselection)
+        addAppointmentCallback(
+          { day, number, time, id }, this.acceptSelection,
+          {
+            day: auxDay,
+            number: auxNumber,
+            time: selectedAppointments[auxDay][auxNumber].time,
+            id: selectedAppointments[auxDay][auxNumber].id
+          }, this.acceptDeselection)
       }
     }
 
@@ -226,12 +234,14 @@ export class AppointmentPicker extends Component {
   }
 
   render () {
-    return (<div className='appointment-content'>
-      <div className={this.props.loading ? 'loader' : null} />
-      <div className='appointment-picker'>
-        {this.renderDays()}
+    return (
+      <div className='appointment-content'>
+        <div className={this.props.loading ? 'loader' : null} />
+        <div className='appointment-picker'>
+          {this.renderDays()}
+        </div>
       </div>
-    </div>)
+    )
   }
 
   renderDays () {
@@ -246,7 +256,7 @@ export class AppointmentPicker extends Component {
         day: 'numeric'
       } */
       const dayNumber = alpha
-        ? actualDay.toLocaleDateString(local, {weekday: 'long'})
+        ? actualDay.toLocaleDateString(local, { weekday: 'long' })
         : actualDay.toLocaleDateString(local)
 
       const isSelected = !!appointments[dayNumber]
@@ -260,17 +270,19 @@ export class AppointmentPicker extends Component {
       }
 
       return (
-        <Day key={index} {...props}>{this.renderAppointments(day, dayNumber, isSelected, dayPeriods[index], actualDay)} </Day>
+        <Day key={index} {...props}>
+          {this.renderAppointments(day, dayNumber, isSelected, dayPeriods[index], actualDay)}
+        </Day>
       )
     })
   }
 
   renderAppointments (appointments, dayNumber, isDaySelected, periods, actualDay) {
     const { selectedAppointments, size, dayLength } = this.state
-    const { maxReservableAppointments, unitTime, local, simple } = this.props
+    const { maxReservableAppointments, unitTime, local, continuos } = this.props
     const blanks = new Array((dayLength - periods) > 0 ? (dayLength - periods) : 0).fill(0)
     let key = 0
-    let day = appointments.map((appointment, index) => {
+    const day = appointments.map((appointment, index) => {
       if (appointment === null) {
         key = key + 1
         return <Blank key={key} />
@@ -282,7 +294,7 @@ export class AppointmentPicker extends Component {
         isSelected,
         orientation: appointment.orientation,
         isReserved: appointment.isReserved,
-        isEnabled: size < maxReservableAppointments || simple,
+        isEnabled: size < maxReservableAppointments || continuos,
         selectAppointment: this.selectAppointment.bind(this, dayNumber, appointment.number, time, appointment.id),
         appointmentNumber: time,
         periods: appointment.periods ? appointment.periods : 1,

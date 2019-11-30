@@ -26,7 +26,7 @@ export default class Appointment extends Component {
         (isSelected ? ' appointment--selected' : '') +
         (!isSelected && isEnabled && !isReserved ? ' appointment--enabled' : '') +
         (isReserved ? ' appointment--reserved' : '')
-    const style = {height: `calc(2rem*${periods || 1} + 0.2rem*(${periods || 1} - 1))`}
+    const style = { height: `calc(2rem*${periods || 1} + 0.2rem*(${periods || 1} - 1))` }
     return (
       <div style={style} className={className} onClick={this.handleClick}>
         <span className='appointment__time'>{this.props.time}</span>
