@@ -160,9 +160,6 @@ export class AppointmentPicker extends Component {
     const { selectedAppointments } = this.state
     if (selectedAppointments[day]) {
       delete selectedAppointments[day][number]
-      /* selectedAppointments[day] = selectedAppointments[day].filter((value) => {
-        return value !== number
-      }) */
       if (!Object.keys(selectedAppointments[day]).length > 0) {
         delete (selectedAppointments[day])
       }
@@ -204,7 +201,6 @@ export class AppointmentPicker extends Component {
     } = this.props
     const appointmentAlreadySelected = this.includeAppointment(selectedAppointments, day, number)
 
-    console.log(day, number, time, id, appointmentAlreadySelected, size)
     if (size < maxReservableAppointments) {
       if (!appointmentAlreadySelected) {
         addAppointmentCallback({ day, number, time, id }, this.acceptSelection)
@@ -225,12 +221,6 @@ export class AppointmentPicker extends Component {
           }, this.acceptDeselection)
       }
     }
-
-    /* if (size < maxReservableAppointments && !appointmentAlreadySelected) {
-      addAppointmentCallback(day, number, time, id, this.acceptSelection)
-    } else if (selectedAppointments[day] && appointmentAlreadySelected) {
-      removeAppointmentCallback(day, number, time, id, this.acceptDeselection)
-    } */
   }
 
   render () {
