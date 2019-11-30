@@ -6,23 +6,38 @@ export default class App extends Component {
   state = {
     loading: false
   }
-  addAppointmentCallback=(day, number, time, id, cb) => {
+  addAppointmentCallback=({day, number, time, id}, addCb) => {
     this.setState({
       loading: true
     }, async() => {
       await new Promise(resolve => setTimeout(resolve, 2500))
       console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`)
-      cb(day, number, time, id)
+      addCb(day, number, time, id)
       this.setState({ loading: false })
     })
   }
-  removeAppointmentCallback=(day, number, time, id, cb) => {
+  addAppointmentCallbackSimple=({day, number, time, id}, addCb,params,removeCb) => {
+    this.setState({
+      loading: true
+    }, async() => {
+      if(removeCb){
+        await new Promise(resolve => setTimeout(resolve, 2500))
+        console.log(`Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`)
+        removeCb(params.day, params.number)
+      }
+      await new Promise(resolve => setTimeout(resolve, 2500))
+      console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`)
+      addCb(day, number, time, id) 
+      this.setState({ loading: false })
+    })
+  }
+  removeAppointmentCallback=({day, number, time, id}, removeCb) => {
     this.setState({
       loading: true
     }, async() => {
       await new Promise(resolve => setTimeout(resolve, 2500))
-      console.log(`Remove appointment ${number}, day ${day}, time ${time}, id ${id}`)
-      cb(day, number)
+      console.log(`Removed appointment ${number}, day ${day}, time ${time}, id ${id}`)
+      removeCb(day, number)
       this.setState({ loading: false })
     })
   }
@@ -43,7 +58,19 @@ export default class App extends Component {
           removeAppointmentCallback={this.removeAppointmentCallback}
           initialDay={new Date('2018-05-05')}
           days={days}
-          maxReservableAppointments={1}
+          maxReservableAppointments={3}
+          alpha
+          visible
+          selectedByDefault
+          loading={loading}
+        />
+        <h1>Appointment Picker Simple</h1>
+        <AppointmentPicker
+          addAppointmentCallback={this.addAppointmentCallbackSimple}
+          removeAppointmentCallback={this.removeAppointmentCallback}
+          initialDay={new Date('2018-05-05')}
+          days={days}
+          maxReservableAppointments={2}
           alpha
           visible
           selectedByDefault

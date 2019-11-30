@@ -30,13 +30,13 @@ export class AppointmentPicker extends Component {
   }
 
   static defaultProps = {
-    addAppointmentCallback: (day, number, time, id, cb) => {
+    addAppointmentCallback: ({day, number, time, id}, addCb, params, removeCb) => {
       console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`)
-      cb(day, number, time, id)
+      addCb(day, number, time, id)
     },
-    removeAppointmentCallback: (day, number, time, id, cb) => {
+    removeAppointmentCallback: ({day, number, time, id}, removeCb) => {
       console.log(`Removed appointment ${number}, day ${day}, time ${time}, id ${id}`)
-      cb(day, number)
+      removeCb(day, number)
     },
     simple: false,
     maxReservableAppointments: 0,
@@ -138,14 +138,14 @@ export class AppointmentPicker extends Component {
   addAppointment=(selectedAppointments, day, number, time, id) => {
     if (selectedAppointments[day]) {
       if (!selectedAppointments[day][number]) {
-        selectedAppointments[day][number]={
+        selectedAppointments[day][number] = {
           id,
           time
         }
       }
     } else {
       selectedAppointments[day] = {}
-      selectedAppointments[day][number]={
+      selectedAppointments[day][number] = {
         id,
         time
       }
@@ -157,9 +157,9 @@ export class AppointmentPicker extends Component {
     let { selectedAppointments } = this.state
     if (selectedAppointments[day]) {
       delete selectedAppointments[day][number]
-      /*selectedAppointments[day] = selectedAppointments[day].filter((value) => {
+      /* selectedAppointments[day] = selectedAppointments[day].filter((value) => {
         return value !== number
-      })*/
+      }) */
       if (!Object.keys(selectedAppointments[day]).length > 0) {
         delete (selectedAppointments[day])
       }
@@ -201,28 +201,28 @@ export class AppointmentPicker extends Component {
     } = this.props
     const appointmentAlreadySelected = this.includeAppointment(selectedAppointments, day, number)
 
-    console.log(day, number, time, id,appointmentAlreadySelected, size)
+    console.log(day, number, time, id, appointmentAlreadySelected, size)
     if (size < maxReservableAppointments) {
-      if(!appointmentAlreadySelected)
-        addAppointmentCallback(day, number, time, id, this.acceptSelection)
-      else
-        removeAppointmentCallback(day, number, time, id, this.acceptDeselection)
-    }else{
+      if (!appointmentAlreadySelected) 
+        addAppointmentCallback({day, number, time, id}, this.acceptSelection)
+      else 
+        removeAppointmentCallback({day, number, time, id}, this.acceptDeselection)
+    } else {
       if (selectedAppointments[day] && appointmentAlreadySelected)
-        removeAppointmentCallback(day, number, time, id, this.acceptDeselection)
-      else if(simple){
-        const auxDay=Object.keys(selectedAppointments)[0]
-        const auxNumber=Object.keys(selectedAppointments[auxDay])[0]
-        removeAppointmentCallback(auxDay, auxNumber, selectedAppointments[auxDay][auxNumber].time, selectedAppointments[auxDay][auxNumber].id, this.acceptDeselection)
-        addAppointmentCallback(day, number, time, id, this.acceptSelection)
+        removeAppointmentCallback({day, number, time, id}, this.acceptDeselection)
+      else if (simple) {
+        const auxDay = Object.keys(selectedAppointments)[0]
+        const auxNumber = Object.keys(selectedAppointments[auxDay])[0]
+        addAppointmentCallback({day, number, time, id}, this.acceptSelection,
+          {day: auxDay, number: auxNumber, time: selectedAppointments[auxDay][auxNumber].time, id: selectedAppointments[auxDay][auxNumber].id}, this.acceptDeselection)
       }
     }
 
-    /*if (size < maxReservableAppointments && !appointmentAlreadySelected) {
+    /* if (size < maxReservableAppointments && !appointmentAlreadySelected) {
       addAppointmentCallback(day, number, time, id, this.acceptSelection)
     } else if (selectedAppointments[day] && appointmentAlreadySelected) {
       removeAppointmentCallback(day, number, time, id, this.acceptDeselection)
-    }*/
+    } */
   }
 
   render () {
