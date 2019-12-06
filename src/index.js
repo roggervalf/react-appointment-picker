@@ -1,4 +1,4 @@
-import './styles/index.scss'
-import { AppointmentPicker } from './AppointmentPicker/AppointmentPicker'
+import "./styles/index.scss";
+import { AppointmentPicker } from "./AppointmentPicker/AppointmentPicker";
 
-export default AppointmentPicker
+export default AppointmentPicker;
