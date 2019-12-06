@@ -1,6 +1,6 @@
 # react-appointment-picker
 
-> Component to pick an appointment
+> Component to pick appointments
 
 [![NPM](https://img.shields.io/npm/v/react-appointment-picker.svg)](https://www.npmjs.com/package/react-appointment-picker) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -46,16 +46,16 @@ export default class App extends Component {
       this.setState({ loading: false })
     })
   }
-  addAppointmentCallbackContinuosCase=({day, number, time, id}, addCb,params,removeCb) => {
+  addAppointmentCallbackContinuousCase=({day, number, time, id}, addCb,params,removeCb) => {
     this.setState({
       loading: true
     }, async() => {
       if(removeCb){
-        await new Promise(resolve => setTimeout(resolve, 2500))
+        await new Promise(resolve => setTimeout(resolve, 1250))
         console.log(`Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`)
         removeCb(params.day, params.number)
       }
-      await new Promise(resolve => setTimeout(resolve, 2500))
+      await new Promise(resolve => setTimeout(resolve, 1250))
       console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`)
       addCb(day, number, time, id) 
       this.setState({ loading: false })
@@ -94,9 +94,9 @@ export default class App extends Component {
           selectedByDefault
           loading={loading}
         />
-        <h1>Appointment Picker Continuos Case</h1>
+        <h1>Appointment Picker Continuous Case</h1>
         <AppointmentPicker
-          addAppointmentCallback={this.addAppointmentCallbackContinuosCase}
+          addAppointmentCallback={this.addAppointmentCallbackContinuousCase}
           removeAppointmentCallback={this.removeAppointmentCallback}
           initialDay={new Date('2018-05-05')}
           days={days}
@@ -105,7 +105,7 @@ export default class App extends Component {
           visible
           selectedByDefault
           loading={loading}
-          continuos
+          continuous
         />
       </div>
     )
@@ -120,14 +120,14 @@ Name | Type | Default | Required|Description
 `alpha` | boolean | `false` | `false` | Displays the name of the day of the week (`true`), otherwise in `dd-mm-yyyy` format.
 `visible` | boolean | `false` | `false` | Shows the day (`true`), otherwise they are hidden (`false`).
 `loading` | boolean | `false` | `false` | Shows a white mask on the appointmentPicker.
-`continous` | boolean | `false` | `false` | Allows to continue select appointments while remove previos ones if you already have max reservable appointmets.
+`continuous` | boolean | `false` | `false` | Allows to continue select appointments while remove previos ones if you already have max reservable appointmets.
 `selectedByDefault` | boolean | `false` | `false` | Allow to have already selected appointments (`true`), otherwise (`false`) they aren´t going to be checked by their isSelected property.
 `maxReservableAppointments` | number | 0 | `false` | Limits the number of selectable appointments.
 `initialDay` | Date | - | `true` | Sets the initial day for your days.
 `unitTime` | number | 15 * 60 * 1000 | `false` | Sets the minimal period of time between appointments.
 `local` | string | `en-US` | `false` | Sets the locale param for Dates variables. See [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString).
-`addAppointmentCallback` | function | ({day, number, time, id}, addCb) => { console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`); addCb(day, number, time, id);}, | `false` | Should be customized as you need. Remember to use addCb(day,number,time,id) for accepting the selection, otherwise ommit it. For continous case see the example where should use removeCb(day,number) for previosly selected appointment.
-`removeAppointmentCallback` | function | (day, number, time, id, removeCb) => {console.log( `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`); removeCb(day,number);} | `false` | Should be customized as you need. Remember to use removeCb(day,number) for accepting the deselection, otherwise ommit it.
+`addAppointmentCallback` | function | ({day, number, time, id}, addCb) => { console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`); addCb(day, number, time, id);}, | `false` | Should be customized as you need. Remember to use addCb(day,number,time,id) for accepting the selection, otherwise ommit it. For continuous case see the example where should use removeCb(day,number) for previosly selected appointment.
+`removeAppointmentCallback` | function | ({day, number, time, id}, removeCb) => {console.log( `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`); removeCb(day,number);} | `false` | Should be customized as you need. Remember to use removeCb(day,number) for accepting the deselection, otherwise ommit it.
 `days` | array | - | `true` | Array of arrays of json. (See next section).
 
 ### Appointment properties
