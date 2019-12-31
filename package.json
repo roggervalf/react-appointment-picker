@@ -1,8 +1,11 @@
 {
   "name": "react-appointment-picker",
-  "version": "1.1.1",
-  "description": "Component to pick an appointment",
-  "author": "Rogger794",
+  "version": "1.1.2",
+  "description": "A React component to pick appointments.",
+  "author": {
+    "name": "Rogger794",
+    "email": "rogger.valverde@uni.pe"
+  },
   "license": "MIT",
   "repository": "Rogger794/react-appointment-picker",
   "main": "dist/index.js",
@@ -12,6 +15,11 @@
     "node": ">=8",
     "npm": ">=5"
   },
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/Rogger794/react-appointment-picker/issues"
+  },
+  "homepage": "https://github.com/Rogger794/react-appointment-picker#readme",
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
@@ -21,8 +29,8 @@
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
     "start": "npm-run-all clean build:watch",
-    "prepare": "yarn run build",
-    "predeploy": "cd example && yarn install && yarn run build",
+    "prepare": "yarn build",
+    "predeploy": "cd example && yarn install && yarn build",
     "deploy": "gh-pages -d example/build"
   },
   "keywords": [
@@ -42,6 +50,8 @@
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@svgr/rollup": "^2.4.1",
     "babel-eslint": "^10.0.3",
     "cross-env": "^6.0.3",
@@ -61,6 +71,7 @@
     "npm-run-all": "^4.1.5",
     "postcss-nested": "^4.2.1",
     "postcss-simple-vars": "^5.0.2",
+    "prettier": "^1.19.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "^1.1.4",
@@ -78,9 +89,15 @@
     "dist"
   ],
   "dependencies": {},
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pretest"
+      "pre-commit": "yarn pretest",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }
