@@ -31,7 +31,8 @@
     "start": "npm-run-all clean build:watch",
     "prepare": "yarn build",
     "predeploy": "cd example && yarn install && yarn build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "cm": "git cz"
   },
   "keywords": [
     "appointment",
@@ -41,8 +42,13 @@
   ],
   "peerDependencies": {
     "prop-types": "^15.5.4",
-    "react": "^15.0.0 || ^16.0.0",
-    "react-dom": "^15.0.0 || ^16.0.0"
+    "react": ">=15.0.0",
+    "react-dom": ">=15.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
@@ -52,8 +58,11 @@
     "@babel/preset-react": "^7.7.4",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/travis-cli": "^8.3.5",
     "@svgr/rollup": "^2.4.1",
     "babel-eslint": "^10.0.3",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
     "cross-env": "^6.0.3",
     "eslint": "^6.7.1",
     "eslint-config-prettier": "^6.7.0",
