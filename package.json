@@ -1,17 +1,25 @@
 {
   "name": "react-appointment-picker",
-  "version": "1.1.1",
-  "description": "Component to pick an appointment",
-  "author": "Rogger794",
+  "version": "1.1.2",
+  "description": "A React component to pick appointments.",
+  "author": {
+    "name": "Rogger794",
+    "email": "rogger.valverde@uni.pe"
+  },
   "license": "MIT",
   "repository": "Rogger794/react-appointment-picker",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
   "engines": {
-    "node": ">=8",
-    "npm": ">=5"
+    "node": ">=10",
+    "npm": ">=6"
   },
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/Rogger794/react-appointment-picker/issues"
+  },
+  "homepage": "https://github.com/Rogger794/react-appointment-picker#readme",
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
@@ -21,9 +29,10 @@
     "build": "rollup -c",
     "build:watch": "rollup -c -w",
     "start": "npm-run-all clean build:watch",
-    "prepare": "yarn run build",
-    "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "prepare": "yarn build",
+    "predeploy": "cd example && yarn install && yarn build",
+    "deploy": "gh-pages -d example/build",
+    "cm": "git cz"
   },
   "keywords": [
     "appointment",
@@ -33,8 +42,13 @@
   ],
   "peerDependencies": {
     "prop-types": "^15.5.4",
-    "react": "^15.0.0 || ^16.0.0",
-    "react-dom": "^15.0.0 || ^16.0.0"
+    "react": ">=15.0.0",
+    "react-dom": ">=15.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
@@ -42,8 +56,18 @@
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/travis-cli": "^8.3.5",
+    "@semantic-release/changelog": "^5.0.0",
+    "@semantic-release/commit-analyzer": "^8.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/npm": "^7.0.3",
+    "@semantic-release/release-notes-generator": "^9.0.1",
     "@svgr/rollup": "^2.4.1",
     "babel-eslint": "^10.0.3",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "^3.1.0",
     "cross-env": "^6.0.3",
     "eslint": "^6.7.1",
     "eslint-config-prettier": "^6.7.0",
@@ -61,6 +85,7 @@
     "npm-run-all": "^4.1.5",
     "postcss-nested": "^4.2.1",
     "postcss-simple-vars": "^5.0.2",
+    "prettier": "^1.19.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "^1.1.4",
@@ -72,15 +97,32 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-sass": "^1.2.2",
-    "rollup-plugin-url": "^3.0.1"
+    "rollup-plugin-url": "^3.0.1",
+    "semantic-release": "^17.0.4"
   },
   "files": [
     "dist"
   ],
   "dependencies": {},
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ],
+    "branch": "master"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run pretest"
+      "pre-commit": "yarn pretest",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }
