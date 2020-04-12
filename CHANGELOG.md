@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/roggervalf/react-appointment-picker/compare/v1.2.0...v1.2.1) (2020-04-12)
+
+
+### Bug Fixes
+
+* **github:** updating github references and adding contributing docs ([e366d96](https://github.com/roggervalf/react-appointment-picker/commit/e366d96f463c39648a4ea96a2ed945a0324c0c2a))
+
 # [1.2.0](https://github.com/roggervalf/react-appointment-picker/compare/v1.1.1...v1.2.0) (2020-03-25)
 
 ### Bug Fixes
