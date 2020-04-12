@@ -208,6 +208,10 @@ Each json in days prop could be `null` (empty appointment) or has these properti
 | `isReserved` | boolean          | `false`   | `false`  | Disable the option of click it.                        |
 | `periods`    | number           | 1         | `false`  | Represents how many periods belongs to an appointment. |
 
+## Contributing
+
+Fork the repo, make some changes, submit a pull-request! Here is the [contributing](contributing.md) doc that has some details.
+
 ## License
 
-MIT © [Rogger794](https://github.com/Rogger794)
+MIT © [roggervalf](https://github.com/roggervalf)

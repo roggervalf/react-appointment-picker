@@ -3,11 +3,11 @@
   "version": "1.2.0",
   "description": "A React component to pick appointments.",
   "author": {
-    "name": "Rogger794",
+    "name": "roggervalf",
     "email": "rogger.valverde@uni.pe"
   },
   "license": "MIT",
-  "repository": "Rogger794/react-appointment-picker",
+  "repository": "roggervalf/react-appointment-picker",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
@@ -17,9 +17,9 @@
   },
   "private": false,
   "bugs": {
-    "url": "https://github.com/Rogger794/react-appointment-picker/issues"
+    "url": "https://github.com/roggervalf/react-appointment-picker/issues"
   },
-  "homepage": "https://github.com/Rogger794/react-appointment-picker#readme",
+  "homepage": "https://github.com/roggervalf/react-appointment-picker#readme",
   "scripts": {
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
