@@ -1,3 +1,16 @@
+# [2.0.0](https://github.com/roggervalf/react-appointment-picker/compare/v1.2.1...v2.0.0) (2020-06-17)
+
+
+### Features
+
+* **types:** new refactor adding types [#9](https://github.com/roggervalf/react-appointment-picker/issues/9) ([c000cda](https://github.com/roggervalf/react-appointment-picker/commit/c000cdac60db7bbb8c73c8d694687376cb18c40e))
+* **typescript:** adding support for typescript ([8d5ca27](https://github.com/roggervalf/react-appointment-picker/commit/8d5ca27a885f8a4ea54e28d23758a9a6f3694ec7))
+
+
+### BREAKING CHANGES
+
+* **types:** Support for Typescript
+
 ## [1.2.1](https://github.com/roggervalf/react-appointment-picker/compare/v1.2.0...v1.2.1) (2020-04-12)
 
 
