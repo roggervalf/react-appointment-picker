@@ -1,19 +1,19 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import AppointmentPicker from "react-appointment-picker";
+import { AppointmentPicker } from 'react-appointment-picker';
 
 export default class App extends Component {
   state = {
-    loading: false,
+    loading: false
   };
 
   addAppointmentCallback = ({ day, number, time, id }, addCb) => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       async () => {
-        await new Promise(resolve => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2500));
         console.log(
           `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -31,17 +31,17 @@ export default class App extends Component {
   ) => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       async () => {
         if (removeCb) {
-          await new Promise(resolve => setTimeout(resolve, 1250));
+          await new Promise((resolve) => setTimeout(resolve, 1200));
           console.log(
             `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
           );
           removeCb(params.day, params.number);
         }
-        await new Promise(resolve => setTimeout(resolve, 1250));
+        await new Promise((resolve) => setTimeout(resolve, 1200));
         console.log(
           `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -54,10 +54,10 @@ export default class App extends Component {
   removeAppointmentCallback = ({ day, number, time, id }, removeCb) => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       async () => {
-        await new Promise(resolve => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2500));
         console.log(
           `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -73,52 +73,52 @@ export default class App extends Component {
         { id: 1, number: 1, isSelected: true, periods: 2 },
         { id: 2, number: 2 },
         null,
-        { id: 3, number: "3", isReserved: true },
-        { id: 4, number: "4" },
+        { id: 3, number: '3', isReserved: true },
+        { id: 4, number: '4' },
         null,
         { id: 5, number: 5 },
-        { id: 6, number: 6 },
+        { id: 6, number: 6 }
       ],
       [
         { id: 7, number: 1, isReserved: true, periods: 3 },
         { id: 8, number: 2, isReserved: true },
         null,
-        { id: 9, number: "3", isReserved: true },
-        { id: 10, number: "4" },
+        { id: 9, number: '3', isReserved: true },
+        { id: 10, number: '4' },
         null,
         { id: 11, number: 5 },
-        { id: 12, number: 6 },
+        { id: 12, number: 6 }
       ],
       [
         { id: 13, number: 1 },
         { id: 14, number: 2 },
         null,
         { id: 15, number: 3, isReserved: true },
-        { id: 16, number: "4" },
+        { id: 16, number: '4' },
         null,
         { id: 17, number: 5 },
-        { id: 18, number: 6 },
+        { id: 18, number: 6 }
       ],
       [
         { id: 19, number: 1 },
         { id: 20, number: 2 },
         null,
         { id: 21, number: 3 },
-        { id: 22, number: "4" },
+        { id: 22, number: '4' },
         null,
         { id: 23, number: 5 },
-        { id: 24, number: 6 },
+        { id: 24, number: 6 }
       ],
       [
         { id: 25, number: 1, isReserved: true },
         { id: 26, number: 2 },
         null,
-        { id: 27, number: "3", isReserved: true },
-        { id: 28, number: "4" },
+        { id: 27, number: '3', isReserved: true },
+        { id: 28, number: '4' },
         null,
         { id: 29, number: 5 },
-        { id: 30, number: 6, isReserved: true },
-      ],
+        { id: 30, number: 6, isReserved: true }
+      ]
     ];
     const { loading } = this.state;
     return (
@@ -127,7 +127,7 @@ export default class App extends Component {
         <AppointmentPicker
           addAppointmentCallback={this.addAppointmentCallback}
           removeAppointmentCallback={this.removeAppointmentCallback}
-          initialDay={new Date("2018-05-05")}
+          initialDay={new Date('2018-05-05')}
           days={days}
           maxReservableAppointments={3}
           alpha
@@ -139,7 +139,7 @@ export default class App extends Component {
         <AppointmentPicker
           addAppointmentCallback={this.addAppointmentCallbackContinuousCase}
           removeAppointmentCallback={this.removeAppointmentCallback}
-          initialDay={new Date("2018-05-05")}
+          initialDay={new Date('2018-05-05')}
           days={days}
           maxReservableAppointments={2}
           alpha

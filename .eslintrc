@@ -1,40 +1,35 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["standard", "standard-react", "prettier", "eslint:recommended"],
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "standard",
+    "standard-react",
+    "plugin:prettier/recommended",
+    "prettier/standard",
+    "prettier/react",
+    "plugin:@typescript-eslint/eslint-recommended"
+  ],
   "env": {
-    "es6": true
+    "node": true
   },
-  "plugins": ["react", "prettier"],
   "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2020,
     "ecmaFeatures": {
-      "impliedStrict": true,
-      "jsx": true,
-      "arrowFunctions": true,
-      "blockBindings": true,
-      "defaultParams": true,
-      "destructuring": true,
-      "forOf": true,
-      "generators": true,
-      "objectLiteralComputedProperties": true,
-      "objectLiteralShorthandMethods": true,
-      "objectLiteralShorthandProperties": true,
-      "experimentalObjectRestSpread": true,
-      "restParams": true,
-      "spread": true,
-      "templateStrings": true,
-      "modules": true,
-      "classes": true
+      "legacyDecorators": true,
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "16"
     }
   },
   "rules": {
-    // don't force es6 functions to include space before paren
     "space-before-function-paren": 0,
-
-    // allow specifying true explicitly for boolean props
-    "react/jsx-boolean-value": 0,
-
+    "react/prop-types": 0,
+    "react/jsx-handler-names": 0,
+    "react/jsx-fragments": 0,
+    "react/no-unused-prop-types": 0,
+    "import/export": 0,
     "max-len": [2, { "code": 120, "ignoreComments": true }]
   }
 }

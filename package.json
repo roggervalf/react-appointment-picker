@@ -11,9 +11,11 @@
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
+  "typings": "dist/index.d.ts",
+  "source": "src/index.tsx",
   "engines": {
-    "node": ">=10",
-    "npm": ">=6"
+    "node": ">=10.18.1",
+    "npm": ">=6.13"
   },
   "private": false,
   "bugs": {
@@ -21,12 +23,20 @@
   },
   "homepage": "https://github.com/roggervalf/react-appointment-picker#readme",
   "scripts": {
+    "pretest": "npm-run-all pretty:quick lint:staged",
+    "prettier:format": "./node_modules/.bin/prettier **/*.{ts,js,json,yml} -l --ignore-path ./.eslintignore",
+    "prettier:fix": "./node_modules/.bin/prettier **/*.{ts,js,json,yml} --write --ignore-path ./.eslintignore",
+    "eslint:format": "./node_modules/.bin/eslint **/*.{ts,js} --ignore-path ./.eslintignore",
+    "eslint:fix": "./node_modules/.bin/eslint . --ignore-path ./.eslintignore --fix",
+    "pretty:quick": "./node_modules/.bin/pretty-quick --staged",
+    "lint:staged": "./node_modules/.bin/lint-staged",
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
-    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
     "lint": "eslint .",
-    "clean": "rimraf dist",
-    "build": "rollup -c",
+    "clean": "rimraf dist temp",
+    "clean:temp": "rimraf temp dist/AppointmentPicker",
+    "build:c": "rollup -c",
+    "build": "npm-run-all build:c clean:temp",
     "build:watch": "rollup -c -w",
     "start": "npm-run-all clean build:watch",
     "prepare": "yarn build",
@@ -41,9 +51,7 @@
     "react-appointment-picker"
   ],
   "peerDependencies": {
-    "prop-types": "^15.5.4",
-    "react": ">=15.0.0",
-    "react-dom": ">=15.0.0"
+    "react": "^16.0.0"
   },
   "config": {
     "commitizen": {
@@ -56,50 +64,66 @@
     "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.2",
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "@commitlint/travis-cli": "^8.3.5",
+    "@rollup/plugin-babel": "^5.0.0",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
     "@semantic-release/changelog": "^5.0.0",
     "@semantic-release/commit-analyzer": "^8.0.1",
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/npm": "^7.0.3",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "@svgr/rollup": "^2.4.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^25.1.4",
+    "@types/node": "^12.12.38",
+    "@types/react": "^16.9.27",
+    "@types/react-dom": "^16.9.7",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "autoprefixer": "^9.8.0",
     "babel-eslint": "^10.0.3",
     "commitizen": "^4.0.3",
-    "cz-conventional-changelog": "^3.1.0",
     "cross-env": "^6.0.3",
-    "eslint": "^6.7.1",
+    "cz-conventional-changelog": "^3.1.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.7.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-standard": "^4.0.1",
-    "gh-pages": "^2.1.1",
+    "gh-pages": "^2.2.0",
     "husky": "^3.1.0",
+    "lint-staged": "^10.2.7",
     "markdownlint": "^0.18.0",
     "node-sass": "^4.13.0",
     "npm-run-all": "^4.1.5",
     "postcss-nested": "^4.2.1",
     "postcss-simple-vars": "^5.0.2",
-    "prettier": "^1.19.1",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "^1.1.4",
+    "prettier": "^2.0.4",
+    "pretty-quick": "^2.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "^3.4.1",
     "rimraf": "^3.0.0",
     "rollup": "^1.27.5",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-dts": "^1.4.7",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^2.0.3",
     "rollup-plugin-sass": "^1.2.2",
+    "rollup-plugin-typescript2": "^0.25.3",
     "rollup-plugin-url": "^3.0.1",
-    "semantic-release": "^17.0.4"
+    "semantic-release": "^17.0.4",
+    "typescript": "^3.7.5"
   },
   "files": [
     "dist"
@@ -119,6 +143,9 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "lint-staged": {
+    "*.{js,tsx}": "yarn eslint:fix"
   },
   "husky": {
     "hooks": {
