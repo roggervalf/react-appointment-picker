@@ -29,19 +29,19 @@ yarn add react-appointment-picker
 ```jsx
 import React, { Component } from 'react';
 
-import AppointmentPicker from 'react-appointment-picker';
+import { AppointmentPicker } from 'react-appointment-picker';
 
 export default class App extends Component {
   state = {
-    loading: false,
+    loading: false
   };
   addAppointmentCallback = ({ day, number, time, id }, addCb) => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       async () => {
-        await new Promise(resolve => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2500));
         console.log(
           `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -58,17 +58,17 @@ export default class App extends Component {
   ) => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       async () => {
         if (removeCb) {
-          await new Promise(resolve => setTimeout(resolve, 1250));
+          await new Promise((resolve) => setTimeout(resolve, 1250));
           console.log(
             `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
           );
           removeCb(params.day, params.number);
         }
-        await new Promise(resolve => setTimeout(resolve, 1250));
+        await new Promise((resolve) => setTimeout(resolve, 1250));
         console.log(
           `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -80,10 +80,10 @@ export default class App extends Component {
   removeAppointmentCallback = ({ day, number, time, id }, removeCb) => {
     this.setState(
       {
-        loading: true,
+        loading: true
       },
       async () => {
-        await new Promise(resolve => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2500));
         console.log(
           `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -102,7 +102,7 @@ export default class App extends Component {
         { id: 4, number: '4' },
         null,
         { id: 5, number: 5 },
-        { id: 6, number: 6 },
+        { id: 6, number: 6 }
       ],
       [
         { id: 7, number: 1, isReserved: true, periods: 3 },
@@ -112,7 +112,7 @@ export default class App extends Component {
         { id: 10, number: '4' },
         null,
         { id: 11, number: 5 },
-        { id: 12, number: 6 },
+        { id: 12, number: 6 }
       ],
       [
         { id: 13, number: 1 },
@@ -122,7 +122,7 @@ export default class App extends Component {
         { id: 16, number: '4' },
         null,
         { id: 17, number: 5 },
-        { id: 18, number: 6 },
+        { id: 18, number: 6 }
       ],
       [
         { id: 19, number: 1 },
@@ -132,7 +132,7 @@ export default class App extends Component {
         { id: 22, number: '4' },
         null,
         { id: 23, number: 5 },
-        { id: 24, number: 6 },
+        { id: 24, number: 6 }
       ],
       [
         { id: 25, number: 1, isReserved: true },
@@ -142,8 +142,8 @@ export default class App extends Component {
         { id: 28, number: '4' },
         null,
         { id: 29, number: 5 },
-        { id: 30, number: 6, isReserved: true },
-      ],
+        { id: 30, number: 6, isReserved: true }
+      ]
     ];
     const { loading } = this.state;
     return (
