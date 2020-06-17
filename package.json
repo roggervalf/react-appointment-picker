@@ -23,9 +23,15 @@
   },
   "homepage": "https://github.com/roggervalf/react-appointment-picker#readme",
   "scripts": {
+    "pretest": "npm-run-all pretty:quick lint:staged",
+    "prettier:format": "./node_modules/.bin/prettier **/*.{ts,js,json,yml} -l --ignore-path ./.eslintignore",
+    "prettier:fix": "./node_modules/.bin/prettier **/*.{ts,js,json,yml} --write --ignore-path ./.eslintignore",
+    "eslint:format": "./node_modules/.bin/eslint **/*.{ts,js} --ignore-path ./.eslintignore",
+    "eslint:fix": "./node_modules/.bin/eslint . --ignore-path ./.eslintignore --fix",
+    "pretty:quick": "./node_modules/.bin/pretty-quick --staged",
+    "lint:staged": "./node_modules/.bin/lint-staged",
     "test": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
-    "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix",
     "lint": "eslint .",
     "clean": "rimraf dist temp",
     "clean:temp": "rimraf temp dist/AppointmentPicker",
@@ -97,12 +103,14 @@
     "eslint-plugin-standard": "^4.0.1",
     "gh-pages": "^2.2.0",
     "husky": "^3.1.0",
+    "lint-staged": "^10.2.7",
     "markdownlint": "^0.18.0",
     "node-sass": "^4.13.0",
     "npm-run-all": "^4.1.5",
     "postcss-nested": "^4.2.1",
     "postcss-simple-vars": "^5.0.2",
     "prettier": "^2.0.4",
+    "pretty-quick": "^2.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1",
@@ -135,6 +143,9 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "lint-staged": {
+    "*.{js,tsx}": "yarn eslint:fix"
   },
   "husky": {
     "hooks": {
