@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/roggervalf/react-appointment-picker/compare/v2.0.1...v3.0.0) (2020-06-19)
+
+
+### Features
+
+* **examples:** adding ts example and refactoring structure ([5c835be](https://github.com/roggervalf/react-appointment-picker/commit/5c835bef562d547cd9d9479312190a48089436f6))
+* **ts:** validation ts usage [#10](https://github.com/roggervalf/react-appointment-picker/issues/10) ([ed75283](https://github.com/roggervalf/react-appointment-picker/commit/ed75283929d761b14304889e501183c9ccf22cd6))
+
+
+### BREAKING CHANGES
+
+* **ts:** new way using callbacks
+
 ## [2.0.1](https://github.com/roggervalf/react-appointment-picker/compare/v2.0.0...v2.0.1) (2020-06-19)
 
 
