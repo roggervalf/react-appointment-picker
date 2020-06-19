@@ -33,15 +33,20 @@ import { AppointmentPicker } from 'react-appointment-picker';
 
 export default class App extends Component {
   state = {
-    loading: false
+    loading: false,
+    continuousLoading: false
   };
-  addAppointmentCallback = ({ day, number, time, id }, addCb) => {
+
+  addAppointmentCallback = ({
+    addedAppointment: { day, number, time, id },
+    addCb
+  }) => {
     this.setState(
       {
         loading: true
       },
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         console.log(
           `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -50,40 +55,14 @@ export default class App extends Component {
       }
     );
   };
-  addAppointmentCallbackContinuousCase = (
-    { day, number, time, id },
-    addCb,
-    params,
-    removeCb
-  ) => {
-    this.setState(
-      {
-        loading: true
-      },
-      async () => {
-        if (removeCb) {
-          await new Promise((resolve) => setTimeout(resolve, 1250));
-          console.log(
-            `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
-          );
-          removeCb(params.day, params.number);
-        }
-        await new Promise((resolve) => setTimeout(resolve, 1250));
-        console.log(
-          `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
-        );
-        addCb(day, number, time, id);
-        this.setState({ loading: false });
-      }
-    );
-  };
+
   removeAppointmentCallback = ({ day, number, time, id }, removeCb) => {
     this.setState(
       {
         loading: true
       },
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         console.log(
           `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -92,6 +71,54 @@ export default class App extends Component {
       }
     );
   };
+
+  addAppointmentCallbackContinuousCase = ({
+    addedAppointment: { day, number, time, id },
+    addCb,
+    removedAppointment: params,
+    removeCb
+  }) => {
+    this.setState(
+      {
+        continuousLoading: true
+      },
+      async () => {
+        if (removeCb) {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          console.log(
+            `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
+          );
+          removeCb(params.day, params.number);
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        console.log(
+          `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
+        );
+        addCb(day, number, time, id);
+        this.setState({ continuousLoading: false });
+      }
+    );
+  };
+
+  removeAppointmentCallbackContinuousCase = (
+    { day, number, time, id },
+    removeCb
+  ) => {
+    this.setState(
+      {
+        continuousLoading: true
+      },
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        console.log(
+          `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
+        );
+        removeCb(day, number);
+        this.setState({ continuousLoading: false });
+      }
+    );
+  };
+
   render() {
     const days = [
       [
@@ -145,7 +172,7 @@ export default class App extends Component {
         { id: 30, number: 6, isReserved: true }
       ]
     ];
-    const { loading } = this.state;
+    const { loading, continuousLoading } = this.state;
     return (
       <div>
         <h1>Appointment Picker</h1>
@@ -163,14 +190,16 @@ export default class App extends Component {
         <h1>Appointment Picker Continuous Case</h1>
         <AppointmentPicker
           addAppointmentCallback={this.addAppointmentCallbackContinuousCase}
-          removeAppointmentCallback={this.removeAppointmentCallback}
+          removeAppointmentCallback={
+            this.removeAppointmentCallbackContinuousCase
+          }
           initialDay={new Date('2018-05-05')}
           days={days}
           maxReservableAppointments={2}
           alpha
           visible
           selectedByDefault
-          loading={loading}
+          loading={continuousLoading}
           continuous
         />
       </div>
