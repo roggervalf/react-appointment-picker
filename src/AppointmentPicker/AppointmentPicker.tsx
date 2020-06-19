@@ -3,104 +3,119 @@ import { Day } from './Day';
 import { Appointment } from './Appointment';
 import { Blank } from './Blank';
 
-type Identifier = string | number;
+type IdentifierType = string | number;
 
-type AddedAppointment = {
+interface AddedAppointmentInterface {
   day: string;
-  number: Identifier;
+  number: IdentifierType;
   time: string;
-  id?: Identifier;
-};
+  id?: IdentifierType;
+}
 
-type AddCallback = (
+type AddCallbackType = (
   day: string,
-  number: Identifier,
+  number: IdentifierType,
   time: string,
-  id?: Identifier
+  id?: IdentifierType
 ) => void;
 
-type RemoveCallback = (day: string, number: Identifier) => void;
+type RemoveCallbackType = (day: string, number: IdentifierType) => void;
 
-type AddAppointment = (
-  addedAppointment: AddedAppointment,
-  addCb: AddCallback,
-  removedAppointment?: AddedAppointment,
-  removeCb?: RemoveCallback
+interface SimpleAddCaseInterface {
+  addedAppointment: AddedAppointmentInterface;
+  addCb: AddCallbackType;
+}
+
+interface ContinuousAddCaseInterface extends SimpleAddCaseInterface {
+  removedAppointment: AddedAppointmentInterface;
+  removeCb: RemoveCallbackType;
+}
+
+type AddAppointmentType = (
+  args: ContinuousAddCaseInterface | SimpleAddCaseInterface
 ) => void;
 
-type RemoveAppointment = (
-  appointment: AddedAppointment,
-  removeCb: RemoveCallback
+type RemoveAppointmentType = (
+  appointment: AddedAppointmentInterface,
+  removeCb: RemoveCallbackType
 ) => void;
 
-type AppointmentAttributes = {
-  id?: Identifier;
-  number: Identifier;
-  isReserved?: boolean;
-  isSelected?: boolean;
-  periods?: number;
-};
-
-interface AppointmentPickerProps {
-  addAppointmentCallback: AddAppointment;
-  removeAppointmentCallback: RemoveAppointment;
-  alpha: boolean;
-  visible: boolean;
-  continuous: boolean;
-  loading: boolean;
-  selectedByDefault: boolean;
+interface DefaultPropsInterface {
+  addAppointmentCallback: AddAppointmentType;
+  removeAppointmentCallback: RemoveAppointmentType;
   maxReservableAppointments: number;
   initialDay: Date;
   unitTime: number;
   local: string;
-  days: AppointmentAttributes[][];
 }
 
-type SelectedAppointment = {
+export type AppointmentAttributesType = {
+  id?: IdentifierType;
+  number: IdentifierType;
+  isReserved?: boolean;
+  isSelected?: boolean;
+  periods?: number;
+} | null;
+
+interface AppointmentPickerPropsInterface {
+  addAppointmentCallback?: AddAppointmentType;
+  removeAppointmentCallback?: RemoveAppointmentType;
+  alpha?: boolean;
+  continuous?: boolean;
+  selectedByDefault?: boolean;
+  maxReservableAppointments?: number;
+  initialDay?: Date;
+  unitTime?: number;
+  local?: string;
+  visible?: boolean;
+  loading?: boolean;
+  days: AppointmentAttributesType[][];
+}
+
+interface SelectedAppointmentInterface {
   time: string;
-  id?: Identifier;
-};
+  id?: IdentifierType;
+}
 
-type selectedAppointmentMap = Map<string, Map<Identifier, SelectedAppointment>>;
+type SelectedAppointmentMapType = Map<
+  string,
+  Map<IdentifierType, SelectedAppointmentInterface>
+>;
 
-interface AppointmentPickerState {
-  selectedAppointments: selectedAppointmentMap;
+interface AppointmentPickerStateInterface {
+  selectedAppointments: SelectedAppointmentMapType;
   size: number;
   dayPeriods: number[];
   dayLength: number;
 }
 
 export class AppointmentPicker extends Component<
-  AppointmentPickerProps,
-  AppointmentPickerState
+  AppointmentPickerPropsInterface,
+  AppointmentPickerStateInterface
 > {
-  static defaultProps = {
-    addAppointmentCallback: (
-      { day, number, time, id }: AddedAppointment,
-      addCb: AddCallback
-    ) => {
+  static defaultProps: DefaultPropsInterface = {
+    addAppointmentCallback: ({
+      addedAppointment: { day, number, time, id },
+      addCb
+    }) => {
       console.log(
         `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
       );
       addCb(day, number, time, id);
     },
-    removeAppointmentCallback: (
-      { day, number, time, id }: AddedAppointment,
-      removeCb: RemoveCallback
-    ) => {
+    removeAppointmentCallback: ({ day, number, time, id }, removeCb) => {
       console.log(
         `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
       );
       removeCb(day, number);
     },
-    continuous: false,
     maxReservableAppointments: 0,
     initialDay: new Date(),
     unitTime: 15 * 60 * 1000,
     local: 'en-US'
   };
 
-  constructor(props: AppointmentPickerProps) {
+  constructor(props: AppointmentPickerPropsInterface) {
     super(props);
     const { days } = props;
     const {
@@ -127,8 +142,8 @@ export class AppointmentPicker extends Component<
   }
 
   static getDerivedStateFromProps(
-    props: AppointmentPickerProps,
-    state: AppointmentPickerState
+    props: AppointmentPickerPropsInterface,
+    state: AppointmentPickerStateInterface
   ) {
     const { selectedAppointments: currentSelectedAppointments } = state;
     if (props.maxReservableAppointments < state.size) {
@@ -161,8 +176,8 @@ export class AppointmentPicker extends Component<
   }
 
   shouldComponentUpdate(
-    nextProps: AppointmentPickerProps,
-    nextState: AppointmentPickerState
+    nextProps: AppointmentPickerPropsInterface,
+    nextState: AppointmentPickerStateInterface
   ) {
     return (
       nextState.selectedAppointments !== this.state.selectedAppointments ||
@@ -224,9 +239,9 @@ export class AppointmentPicker extends Component<
   };
 
   includeAppointment = (
-    selectedAppointments: selectedAppointmentMap,
+    selectedAppointments: SelectedAppointmentMapType,
     day: string,
-    number: Identifier
+    number: IdentifierType
   ) => {
     const currentDay = selectedAppointments.get(day);
     if (currentDay) {
@@ -236,11 +251,11 @@ export class AppointmentPicker extends Component<
   };
 
   addAppointment = (
-    selectedAppointments: selectedAppointmentMap,
+    selectedAppointments: SelectedAppointmentMapType,
     day: string,
-    number: Identifier,
+    number: IdentifierType,
     time: string,
-    id?: Identifier
+    id?: IdentifierType
   ) => {
     const currentDay = selectedAppointments.get(day);
     if (currentDay) {
@@ -267,7 +282,7 @@ export class AppointmentPicker extends Component<
     }
   };
 
-  deleteAppointment = (day: string, number: Identifier) => {
+  deleteAppointment = (day: string, number: IdentifierType) => {
     const { selectedAppointments } = this.state;
     const currentDay = selectedAppointments.get(day);
     if (currentDay) {
@@ -280,9 +295,9 @@ export class AppointmentPicker extends Component<
 
   acceptSelection = (
     day: string,
-    number: Identifier,
+    number: IdentifierType,
     time: string,
-    id?: Identifier
+    id?: IdentifierType
   ) => {
     const { selectedAppointments, size } = this.state;
     const { maxReservableAppointments } = this.props;
@@ -294,7 +309,7 @@ export class AppointmentPicker extends Component<
     }
   };
 
-  acceptDeselection = (day: string, number: Identifier) => {
+  acceptDeselection = (day: string, number: IdentifierType) => {
     const size = this.state.size;
 
     this.deleteAppointment(day, number);
@@ -305,9 +320,9 @@ export class AppointmentPicker extends Component<
 
   selectAppointment = (
     day: string,
-    number: Identifier,
+    number: IdentifierType,
     time: string,
-    id?: Identifier
+    id?: IdentifierType
   ) => {
     const { selectedAppointments } = this.state;
     const size = this.state.size;
@@ -325,7 +340,10 @@ export class AppointmentPicker extends Component<
 
     if (size < maxReservableAppointments) {
       if (!appointmentAlreadySelected) {
-        addAppointmentCallback({ day, number, time, id }, this.acceptSelection);
+        addAppointmentCallback({
+          addedAppointment: { day, number, time, id },
+          addCb: this.acceptSelection
+        });
       } else {
         removeAppointmentCallback(
           { day, number, time, id },
@@ -344,17 +362,17 @@ export class AppointmentPicker extends Component<
         const auxDayInstance = selectedAppointments.get(auxDay);
         const auxNumber = auxDayInstance.keys().next().value;
         const auxNumberInstance = auxDayInstance.get(auxNumber);
-        addAppointmentCallback(
-          { day, number, time, id },
-          this.acceptSelection,
-          {
+        addAppointmentCallback({
+          addedAppointment: { day, number, time, id },
+          addCb: this.acceptSelection,
+          removedAppointment: {
             day: auxDay,
             number: auxNumber,
             time: auxNumberInstance.time,
             id: auxNumberInstance.id
           },
-          this.acceptDeselection
-        );
+          removeCb: this.acceptDeselection
+        });
       }
     }
   };
@@ -410,7 +428,7 @@ export class AppointmentPicker extends Component<
   }
 
   renderAppointments(
-    appointments: AppointmentAttributes[],
+    appointments: AppointmentAttributesType[],
     dayNumber: string,
     isDaySelected: boolean,
     periods: number,

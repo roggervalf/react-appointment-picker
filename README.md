@@ -2,7 +2,10 @@
 
 > Component to pick appointments
 
-[![NPM](https://img.shields.io/npm/v/react-appointment-picker.svg)](https://www.npmjs.com/package/react-appointment-picker) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-appointment-picker.svg)](https://www.npmjs.com/package/react-appointment-picker)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status](https://travis-ci.com/roggervalf/react-appointment-picker.svg?branch=master)](https://travis-ci.com/github/roggervalf/react-appointment-picker)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ## Demo
 
@@ -33,15 +36,20 @@ import { AppointmentPicker } from 'react-appointment-picker';
 
 export default class App extends Component {
   state = {
-    loading: false
+    loading: false,
+    continuousLoading: false
   };
-  addAppointmentCallback = ({ day, number, time, id }, addCb) => {
+
+  addAppointmentCallback = ({
+    addedAppointment: { day, number, time, id },
+    addCb
+  }) => {
     this.setState(
       {
         loading: true
       },
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         console.log(
           `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -50,40 +58,14 @@ export default class App extends Component {
       }
     );
   };
-  addAppointmentCallbackContinuousCase = (
-    { day, number, time, id },
-    addCb,
-    params,
-    removeCb
-  ) => {
-    this.setState(
-      {
-        loading: true
-      },
-      async () => {
-        if (removeCb) {
-          await new Promise((resolve) => setTimeout(resolve, 1250));
-          console.log(
-            `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
-          );
-          removeCb(params.day, params.number);
-        }
-        await new Promise((resolve) => setTimeout(resolve, 1250));
-        console.log(
-          `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
-        );
-        addCb(day, number, time, id);
-        this.setState({ loading: false });
-      }
-    );
-  };
+
   removeAppointmentCallback = ({ day, number, time, id }, removeCb) => {
     this.setState(
       {
         loading: true
       },
       async () => {
-        await new Promise((resolve) => setTimeout(resolve, 2500));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         console.log(
           `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
         );
@@ -92,6 +74,54 @@ export default class App extends Component {
       }
     );
   };
+
+  addAppointmentCallbackContinuousCase = ({
+    addedAppointment: { day, number, time, id },
+    addCb,
+    removedAppointment: params,
+    removeCb
+  }) => {
+    this.setState(
+      {
+        continuousLoading: true
+      },
+      async () => {
+        if (removeCb) {
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          console.log(
+            `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
+          );
+          removeCb(params.day, params.number);
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        console.log(
+          `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
+        );
+        addCb(day, number, time, id);
+        this.setState({ continuousLoading: false });
+      }
+    );
+  };
+
+  removeAppointmentCallbackContinuousCase = (
+    { day, number, time, id },
+    removeCb
+  ) => {
+    this.setState(
+      {
+        continuousLoading: true
+      },
+      async () => {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        console.log(
+          `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
+        );
+        removeCb(day, number);
+        this.setState({ continuousLoading: false });
+      }
+    );
+  };
+
   render() {
     const days = [
       [
@@ -145,7 +175,7 @@ export default class App extends Component {
         { id: 30, number: 6, isReserved: true }
       ]
     ];
-    const { loading } = this.state;
+    const { loading, continuousLoading } = this.state;
     return (
       <div>
         <h1>Appointment Picker</h1>
@@ -163,14 +193,16 @@ export default class App extends Component {
         <h1>Appointment Picker Continuous Case</h1>
         <AppointmentPicker
           addAppointmentCallback={this.addAppointmentCallbackContinuousCase}
-          removeAppointmentCallback={this.removeAppointmentCallback}
+          removeAppointmentCallback={
+            this.removeAppointmentCallbackContinuousCase
+          }
           initialDay={new Date('2018-05-05')}
           days={days}
           maxReservableAppointments={2}
           alpha
           visible
           selectedByDefault
-          loading={loading}
+          loading={continuousLoading}
           continuous
         />
       </div>
@@ -181,20 +213,20 @@ export default class App extends Component {
 
 ### Props
 
-| Name                        | Type     | Default                                                                                                                                               | Required | Description                                                                                                                                                                                                                                |
-| --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `alpha`                     | boolean  | `false`                                                                                                                                               | `false`  | Displays the name of the day of the week (`true`), otherwise in `dd-mm-yyyy` format.                                                                                                                                                       |
-| `visible`                   | boolean  | `false`                                                                                                                                               | `false`  | Shows the day (`true`), otherwise they are hidden (`false`).                                                                                                                                                                               |
-| `loading`                   | boolean  | `false`                                                                                                                                               | `false`  | Shows a white mask on the appointmentPicker.                                                                                                                                                                                               |
-| `continuous`                | boolean  | `false`                                                                                                                                               | `false`  | Allows to continue select appointments while remove previos ones if you already have max reservable appointmets.                                                                                                                           |
-| `selectedByDefault`         | boolean  | `false`                                                                                                                                               | `false`  | Allow to have already selected appointments (`true`), otherwise (`false`) they aren´t going to be checked by their isSelected property.                                                                                                    |
-| `maxReservableAppointments` | number   | 0                                                                                                                                                     | `false`  | Limits the number of selectable appointments.                                                                                                                                                                                              |
-| `initialDay`                | Date     | -                                                                                                                                                     | `true`   | Sets the initial day for your days.                                                                                                                                                                                                        |
-| `unitTime`                  | number   | 15 _ 60 _ 1000                                                                                                                                        | `false`  | Sets the minimal period of time between appointments.                                                                                                                                                                                      |
-| `local`                     | string   | `en-US`                                                                                                                                               | `false`  | Sets the locale param for Dates variables. See [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString).                                                                  |
-| `addAppointmentCallback`    | function | ({day, number, time, id}, addCb) => { console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`); addCb(day, number, time, id);}, | `false`  | Should be customized as you need. Remember to use addCb(day,number,time,id) for accepting the selection, otherwise ommit it. For continuous case see the example where should use removeCb(day,number) for previosly selected appointment. |
-| `removeAppointmentCallback` | function | ({day, number, time, id}, removeCb) => {console.log( `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`); removeCb(day,number);}     | `false`  | Should be customized as you need. Remember to use removeCb(day,number) for accepting the deselection, otherwise ommit it.                                                                                                                  |
-| `days`                      | array    | -                                                                                                                                                     | `true`   | Array of arrays of json. (See next section).                                                                                                                                                                                               |
+| Name                        | Type     | Default                                                                                                                                                                   | Required | Description                                                                                                                                                                                                                                |
+| --------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `alpha`                     | boolean  | `false`                                                                                                                                                                   | `false`  | Displays the name of the day of the week (`true`), otherwise in `dd-mm-yyyy` format.                                                                                                                                                       |
+| `visible`                   | boolean  | `false`                                                                                                                                                                   | `false`  | Shows the day (`true`), otherwise they are hidden (`false`).                                                                                                                                                                               |
+| `loading`                   | boolean  | `false`                                                                                                                                                                   | `false`  | Shows a white mask on the appointmentPicker.                                                                                                                                                                                               |
+| `continuous`                | boolean  | `false`                                                                                                                                                                   | `false`  | Allows to continue select appointments while remove previous ones if you already have max reservable appointments.                                                                                                                         |
+| `selectedByDefault`         | boolean  | `false`                                                                                                                                                                   | `false`  | Allow to have already selected appointments (`true`), otherwise (`false`) they aren't going to be checked by their isSelected property.                                                                                                    |
+| `maxReservableAppointments` | number   | 0                                                                                                                                                                         | `false`  | Limits the number of selectable appointments.                                                                                                                                                                                              |
+| `initialDay`                | Date     | -                                                                                                                                                                         | `true`   | Sets the initial day for your days.                                                                                                                                                                                                        |
+| `unitTime`                  | number   | 15 _ 60 _ 1000                                                                                                                                                            | `false`  | Sets the minimal period of time between appointments.                                                                                                                                                                                      |
+| `local`                     | string   | `en-US`                                                                                                                                                                   | `false`  | Sets the locale param for Dates variables. See [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString).                                                                  |
+| `addAppointmentCallback`    | function | ({addedAppointment: {day, number, time, id}, addCb}) => { console.log(`Added appointment ${number}, day ${day}, time ${time}, id ${id}`); addCb(day, number, time, id);}, | `false`  | Should be customized as you need. Remember to use addCb(day,number,time,id) for accepting the selection, otherwise omit it. For continuous case see the example where should use removeCb(day,number) for previously selected appointment. |
+| `removeAppointmentCallback` | function | ({day, number, time, id}, removeCb) => {console.log( `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`); removeCb(day,number);}                         | `false`  | Should be customized as you need. Remember to use removeCb(day,number) for accepting the deselection, otherwise omit it.                                                                                                                   |
+| `days`                      | array    | -                                                                                                                                                                         | `true`   | Array of arrays of json. (See next section).                                                                                                                                                                                               |
 
 ### Appointment properties
 
