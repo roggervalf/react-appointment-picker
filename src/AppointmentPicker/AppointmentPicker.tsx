@@ -3,39 +3,39 @@ import { Day } from './Day';
 import { Appointment } from './Appointment';
 import { Blank } from './Blank';
 
-type DayNumber = string | number;
+type Identifier = string | number;
 
 type AddedAppointment = {
   day: string;
-  number: DayNumber;
+  number: Identifier;
   time: string;
-  id?: string;
+  id?: Identifier;
 };
 
-type AddCallBack = (
+type AddCallback = (
   day: string,
-  number: DayNumber,
+  number: Identifier,
   time: string,
-  id?: string
+  id?: Identifier
 ) => void;
 
-type RemoveCallBack = (day: string, number: DayNumber) => void;
+type RemoveCallback = (day: string, number: Identifier) => void;
 
 type AddAppointment = (
   addedAppointment: AddedAppointment,
-  addCb: AddCallBack,
+  addCb: AddCallback,
   removedAppointment?: AddedAppointment,
-  removeCb?: RemoveCallBack
+  removeCb?: RemoveCallback
 ) => void;
 
 type RemoveAppointment = (
   appointment: AddedAppointment,
-  removeCb: RemoveCallBack
+  removeCb: RemoveCallback
 ) => void;
 
 type AppointmentAttributes = {
-  id?: string;
-  number: DayNumber;
+  id?: Identifier;
+  number: Identifier;
   isReserved?: boolean;
   isSelected?: boolean;
   periods?: number;
@@ -58,10 +58,10 @@ interface AppointmentPickerProps {
 
 type SelectedAppointment = {
   time: string;
-  id?: string;
+  id?: Identifier;
 };
 
-type selectedAppointmentMap = Map<string, Map<DayNumber, SelectedAppointment>>;
+type selectedAppointmentMap = Map<string, Map<Identifier, SelectedAppointment>>;
 
 interface AppointmentPickerState {
   selectedAppointments: selectedAppointmentMap;
@@ -77,7 +77,7 @@ export class AppointmentPicker extends Component<
   static defaultProps = {
     addAppointmentCallback: (
       { day, number, time, id }: AddedAppointment,
-      addCb: AddCallBack
+      addCb: AddCallback
     ) => {
       console.log(
         `Added appointment ${number}, day ${day}, time ${time}, id ${id}`
@@ -86,7 +86,7 @@ export class AppointmentPicker extends Component<
     },
     removeAppointmentCallback: (
       { day, number, time, id }: AddedAppointment,
-      removeCb: RemoveCallBack
+      removeCb: RemoveCallback
     ) => {
       console.log(
         `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
@@ -226,7 +226,7 @@ export class AppointmentPicker extends Component<
   includeAppointment = (
     selectedAppointments: selectedAppointmentMap,
     day: string,
-    number: DayNumber
+    number: Identifier
   ) => {
     const currentDay = selectedAppointments.get(day);
     if (currentDay) {
@@ -238,9 +238,9 @@ export class AppointmentPicker extends Component<
   addAppointment = (
     selectedAppointments: selectedAppointmentMap,
     day: string,
-    number: DayNumber,
+    number: Identifier,
     time: string,
-    id?: string
+    id?: Identifier
   ) => {
     const currentDay = selectedAppointments.get(day);
     if (currentDay) {
@@ -267,7 +267,7 @@ export class AppointmentPicker extends Component<
     }
   };
 
-  deleteAppointment = (day: string, number: DayNumber) => {
+  deleteAppointment = (day: string, number: Identifier) => {
     const { selectedAppointments } = this.state;
     const currentDay = selectedAppointments.get(day);
     if (currentDay) {
@@ -280,9 +280,9 @@ export class AppointmentPicker extends Component<
 
   acceptSelection = (
     day: string,
-    number: DayNumber,
+    number: Identifier,
     time: string,
-    id?: string
+    id?: Identifier
   ) => {
     const { selectedAppointments, size } = this.state;
     const { maxReservableAppointments } = this.props;
@@ -294,7 +294,7 @@ export class AppointmentPicker extends Component<
     }
   };
 
-  acceptDeselection = (day: string, number: DayNumber) => {
+  acceptDeselection = (day: string, number: Identifier) => {
     const size = this.state.size;
 
     this.deleteAppointment(day, number);
@@ -305,9 +305,9 @@ export class AppointmentPicker extends Component<
 
   selectAppointment = (
     day: string,
-    number: DayNumber,
+    number: Identifier,
     time: string,
-    id?: string
+    id?: Identifier
   ) => {
     const { selectedAppointments } = this.state;
     const size = this.state.size;
