@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/roggervalf/react-appointment-picker/compare/v2.0.0...v2.0.1) (2020-06-19)
+
+
+### Bug Fixes
+
+* **types:** allow id to be passed as number ([7ee6315](https://github.com/roggervalf/react-appointment-picker/commit/7ee63151703fa1a4b16f030f8780399e96f6d4a2))
+
 # [2.0.0](https://github.com/roggervalf/react-appointment-picker/compare/v1.2.1...v2.0.0) (2020-06-17)
 
 
