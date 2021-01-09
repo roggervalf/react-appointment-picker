@@ -2,14 +2,11 @@
 
 > Component to pick appointments
 
-[![NPM](https://img.shields.io/npm/v/react-appointment-picker.svg)](https://www.npmjs.com/package/react-appointment-picker)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![Build Status](https://travis-ci.com/roggervalf/react-appointment-picker.svg?branch=master)](https://travis-ci.com/github/roggervalf/react-appointment-picker)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![NPM](https://img.shields.io/npm/v/react-appointment-picker.svg)](https://www.npmjs.com/package/react-appointment-picker) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) [![Build Status](https://travis-ci.com/roggervalf/react-appointment-picker.svg?branch=master)](https://travis-ci.com/github/roggervalf/react-appointment-picker) [![NPM downloads](https://img.shields.io/npm/dm/react-appointment-picker)](https://www.npmjs.com/package/react-appointment-picker) [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
 ## Demo
 
-[![Edit AppointmentPicker](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/gracious-shadow-2u8jz?fontsize=14)
+[![Edit AppointmentPicker](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/eloquent-wave-qnxzv?fontsize=14)
 
 ## About
 

@@ -3,7 +3,7 @@
     "outDir": "./temp",
     // "target": "es5",
     "module": "esnext",
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "es2015"],
     "moduleResolution": "node",
     // "forceConsistentCasingInFileNames": true,
     "jsx": "react",
