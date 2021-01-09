@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/roggervalf/react-appointment-picker/compare/v3.0.0...v3.0.1) (2021-01-09)
+
+
+### Bug Fixes
+
+* **codesandbox:** updating example project reference ([243f30b](https://github.com/roggervalf/react-appointment-picker/commit/243f30b0a078a2c4cb5592d3ad8b37385d46d63b)), closes [#12](https://github.com/roggervalf/react-appointment-picker/issues/12)
+
 # [3.0.0](https://github.com/roggervalf/react-appointment-picker/compare/v2.0.1...v3.0.0) (2020-06-19)
 
 
