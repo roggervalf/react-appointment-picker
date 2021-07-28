@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 interface AppointmentProps {
   isSelected: boolean;
@@ -9,29 +9,31 @@ interface AppointmentProps {
   selectAppointment: () => void;
 }
 
-export class Appointment extends Component<AppointmentProps> {
-  static defaultProps = {
-    isSelected: false
+const Appointment = ({
+  isSelected = false,
+  isReserved,
+  isEnabled,
+  periods,
+  time,
+  selectAppointment
+}: AppointmentProps) => {
+  const handleClick = () => {
+    !isReserved && selectAppointment();
   };
 
-  handleClick = () => {
-    !this.props.isReserved && this.props.selectAppointment();
+  const className =
+    'appointment' +
+    (isSelected ? ' appointment--selected' : '') +
+    (!isSelected && isEnabled && !isReserved ? ' appointment--enabled' : '') +
+    (isReserved ? ' appointment--reserved' : '');
+  const style = {
+    height: `calc(2rem*${periods || 1} + 0.2rem*(${periods || 1} - 1))`
   };
+  return (
+    <div style={style} className={className} onClick={handleClick}>
+      <span className='appointment__time'>{time}</span>
+    </div>
+  );
+};
 
-  render() {
-    const { isSelected, isEnabled, isReserved, periods } = this.props;
-    const className =
-      'appointment' +
-      (isSelected ? ' appointment--selected' : '') +
-      (!isSelected && isEnabled && !isReserved ? ' appointment--enabled' : '') +
-      (isReserved ? ' appointment--reserved' : '');
-    const style = {
-      height: `calc(2rem*${periods || 1} + 0.2rem*(${periods || 1} - 1))`
-    };
-    return (
-      <div style={style} className={className} onClick={this.handleClick}>
-        <span className='appointment__time'>{this.props.time}</span>
-      </div>
-    );
-  }
-}
+export { Appointment };

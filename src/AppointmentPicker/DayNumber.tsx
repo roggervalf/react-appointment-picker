@@ -1,16 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 interface DayNumberProps {
   dayNumber: string;
   visible: boolean;
 }
 
-export default class DayNumber extends Component<DayNumberProps> {
-  render() {
-    return this.props.visible ? (
-      <div className='appointment-picker__col__name'>
-        {this.props.dayNumber}
-      </div>
-    ) : null;
-  }
-}
+const DayNumber = ({ visible, dayNumber }: DayNumberProps) => {
+  return visible ? (
+    <div className='appointment-picker__col__name'>{dayNumber}</div>
+  ) : null;
+};
+
+export default DayNumber;

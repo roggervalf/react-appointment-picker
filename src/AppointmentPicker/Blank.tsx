@@ -1,7 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-export class Blank extends Component {
-  render() {
-    return <div className='blank' />;
-  }
-}
+export const Blank = () => {
+  return <div className='blank' />;
+};
