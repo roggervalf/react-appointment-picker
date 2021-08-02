@@ -1,3 +1,10 @@
+# [3.2.0](https://github.com/roggervalf/react-appointment-picker/compare/v3.1.0...v3.2.0) (2021-08-02)
+
+
+### Features
+
+* **appointment-picker:** transform to functional component ([2669a2f](https://github.com/roggervalf/react-appointment-picker/commit/2669a2f078886025827eba9b8d021c87a85fd2e4))
+
 # [3.1.0](https://github.com/roggervalf/react-appointment-picker/compare/v3.0.1...v3.1.0) (2021-07-28)
 
 
