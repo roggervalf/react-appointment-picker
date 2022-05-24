@@ -1,3 +1,10 @@
+## [3.2.1](https://github.com/roggervalf/react-appointment-picker/compare/v3.2.0...v3.2.1) (2022-05-24)
+
+
+### Bug Fixes
+
+* **deps:** update react peer deps for versions 17 and 18 ([#16](https://github.com/roggervalf/react-appointment-picker/issues/16)) ([2dbdb88](https://github.com/roggervalf/react-appointment-picker/commit/2dbdb8864ed2cfba38c5fdc91aa0cdc1d2ece6ce))
+
 # [3.2.0](https://github.com/roggervalf/react-appointment-picker/compare/v3.1.0...v3.2.0) (2021-08-02)
 
 
