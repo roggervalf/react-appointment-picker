@@ -391,7 +391,7 @@ const AppointmentPicker = ({
       }
       const time = new Date(
         actualDay.getTime() + unitTime * key
-      ).toLocaleTimeString(local);
+      ).toLocaleTimeString(local, {hour: '2-digit', minute: '2-digit'});
       const isSelected =
         isDaySelected &&
         includeAppointment(selectedAppointments, dayNumber, appointment.number);
